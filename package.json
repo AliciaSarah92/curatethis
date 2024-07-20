@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.44.4",
+    "axios": "^1.7.2",
     "bootstrap": "5.3.3",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
+    "vue-axios": "^3.5.2",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {

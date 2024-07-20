@@ -1,4 +1,36 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { inject, onMounted } from 'vue';
+
+const axios: any = inject('axios');
+
+const getList = (): void => {
+    axios
+        .get('https://collection.sciencemuseumgroup.org.uk/search?q=Charles&page[number]=3&page[size]=1', {
+            headers: {
+                accept: 'application/json'
+            },
+        })
+        .then((response: { data: any }) => {
+            console.log(response.data);
+        });
+};
+
+const getList2 = (): void => {
+    axios
+        .get('https://api.artic.edu/api/v1/artworks/129884', {
+            headers: {
+                accept: 'application/json'
+            },
+        })
+        .then((response: { data: any }) => {
+            console.log(response.data);
+        });
+};
+
+onMounted(() => {
+    getList(), getList2();
+})
+</script>
 
 <template>
     <div class="overflow-hidden">
@@ -140,7 +172,7 @@
 
         <img
             class="position-absolute end-0 w-50 object-fit-cover vh-100 z-0 p-0"
-            src="../assets/imgs/faces.jpg"
+            src="../assets/imgs/colorful.jpg"
         />
 
         <div class="cover-container position-relative z-1 d-flex w-100 vh-100 p-3 mx-auto flex-column">
@@ -149,13 +181,13 @@
                     <h3 class="float-md-start mb-0">CurateThis.</h3>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                         <RouterLink
-                            class="nav-link fw-bold py-1 px-0 active"
+                            class="nav-link fw-bold py-1 px-0"
                             aria-current="page"
                             to="/"
                             >Home</RouterLink
                         >
                         <RouterLink
-                            class="nav-link fw-bold py-1 px-0"
+                            class="nav-link fw-bold py-1 px-0 active"
                             aria-current="page"
                             to="search"
                             >Search</RouterLink
@@ -171,15 +203,10 @@
             </header>
 
             <main class="px-3">
-                <h1>CurateThis.</h1>
-                <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-                <p class="lead">
-                    <a
-                        href="#"
-                        class="btn btn-lg btn-light fw-bold border-white bg-white"
-                        >Learn more</a
-                    >
-                </p>
+                <h1>Search.</h1>
+                <!-- <div>
+                    {{ getList() }}
+                </div> -->
             </main>
 
             <footer class="mt-auto text-white-50">

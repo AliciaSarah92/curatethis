@@ -140,7 +140,7 @@
 
         <img
             class="position-absolute end-0 w-50 object-fit-cover vh-100 z-0 p-0"
-            src="../assets/imgs/faces.jpg"
+            src="../assets/imgs/graffiti.jpg"
         />
 
         <div class="cover-container position-relative z-1 d-flex w-100 vh-100 p-3 mx-auto flex-column">
@@ -149,7 +149,7 @@
                     <h3 class="float-md-start mb-0">CurateThis.</h3>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                         <RouterLink
-                            class="nav-link fw-bold py-1 px-0 active"
+                            class="nav-link fw-bold py-1 px-0"
                             aria-current="page"
                             to="/"
                             >Home</RouterLink
@@ -161,7 +161,7 @@
                             >Search</RouterLink
                         >
                         <RouterLink
-                            class="nav-link fw-bold py-1 px-0"
+                            class="nav-link fw-bold py-1 px-0 active"
                             aria-current="page"
                             to="my-collections"
                             >My Collections</RouterLink
@@ -171,7 +171,7 @@
             </header>
 
             <main class="px-3">
-                <h1>CurateThis.</h1>
+                <h1>My Collections.</h1>
                 <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
                 <p class="lead">
                     <a
