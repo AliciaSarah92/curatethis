@@ -3,9 +3,7 @@ import Search from '../components/Search.vue';
 </script>
 
 <template>
-    <div
-        class="mt-5"
-    >
+    <main>
         <Search />
-    </div>
+    </main>
 </template>
