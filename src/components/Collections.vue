@@ -2,7 +2,6 @@
 import { inject, onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import moment from 'moment';
-import Loader from './Loader.vue';
 import { useAuthStore } from '@/stores/auth';
 import { supabase } from '../lib/supabase';
 import CreateCollectionModal from '@/components/CreateCollectionModal.vue';
@@ -37,7 +36,6 @@ const getMyCollections = async (user = null) => {
 };
 
 const reloadData = (status = false) => {
-    console.log(status);
     if (status) {
         getMyCollections();
     }

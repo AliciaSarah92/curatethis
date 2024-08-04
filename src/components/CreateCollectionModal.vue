@@ -11,7 +11,8 @@ const { notify } = useNotification();
 const modalEl = ref(null);
 const modal = ref(null);
 const authStore = useAuthStore();
-const emits = defineEmits(['closeModal']);
+const emits = defineEmits(['closeModal', 'loadBaseViewModal']);
+const artwork = ref({});
 
 const formSchema = Yup.object({
     name: Yup.string().typeError('Name is required').required('Name is required'),
@@ -30,7 +31,7 @@ const name = useFieldModel('name');
 
 const submitForm = handleSubmit(async formData => {
     const collection = {
-        user_id: authStore.currentUser.id,
+        user_id: authStore.currentUser?.id,
         name: formData.name,
     };
 
@@ -43,6 +44,34 @@ const submitForm = handleSubmit(async formData => {
             text: 'Collection successfully created.',
             type: 'success',
         });
+
+        if (Object.keys(artwork.value).length) {
+            const { data } = await supabase.from('collections').select().eq('user_id', authStore.currentUser?.id).limit(1).single().order('created_at', { ascending: false });
+
+            const artworks = {
+                artwork_id: artwork.value.id,
+                type: artwork.value.type,
+                image: artwork.value.image,
+                collection_id: data.id,
+            };
+
+            try {
+                const { error } = await supabase.from('artworks').insert(artworks);
+                if (error) throw error;
+
+                notify({
+                    title: 'Success',
+                    text: 'Artwork successfully add to collection.',
+                    type: 'success',
+                });
+            } catch (error) {
+                notify({
+                    title: 'Error',
+                    text: error,
+                    type: 'error',
+                });
+            }
+        }
 
         emits('closeModal', { status: true });
     } catch (error) {
@@ -63,6 +92,7 @@ const showModal = () => {
 const closeModal = () => {
     modal.value.hide();
     resetForm();
+    emits('loadBaseViewModal');
 };
 
 onMounted(() => {
@@ -72,6 +102,7 @@ onMounted(() => {
 defineExpose({
     showModal,
     closeModal,
+    artwork,
 });
 </script>
 

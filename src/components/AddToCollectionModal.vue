@@ -11,7 +11,7 @@ const props = defineProps({
     collections: Array,
     artwork: Object,
 });
-const emits = defineEmits(['closeModal']);
+const emits = defineEmits(['closeModal', 'loadBaseViewModal']);
 const { collections, artwork } = toRefs(props);
 
 const modalEl = ref(null);
@@ -68,6 +68,7 @@ const closeModal = () => {
     modal.value.hide();
     resetForm();
     emits('closeModal');
+    emits('loadBaseViewModal');
 };
 
 onMounted(() => {

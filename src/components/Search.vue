@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
-import moment from 'moment';
 import Loader from './Loader.vue';
+import moment from 'moment';
 import { useAuthStore } from '@/stores/auth';
 import { supabase } from '../lib/supabase';
 import AddToCollectionModal from '@/components/AddToCollectionModal.vue';
 import CreateCollectionModal from '@/components/CreateCollectionModal.vue';
+import { Modal } from 'bootstrap';
 
 const localSelectedMuseum = localStorage.getItem('selectedMuseum');
 const axios: any = inject('axios');
@@ -16,6 +17,8 @@ const pagination = ref({
     total: 0,
     total_pages: 0,
 });
+const baseModalEl = ref(null);
+const baseModal = ref(null);
 const searchQuery = ref('');
 const searchItem = ref(null);
 const dataLoading = ref(false);
@@ -194,11 +197,14 @@ const addToCollection = async artworkItem => {
 
     if (!data.length) {
         createCollectionModal.value.showModal();
+        createCollectionModal.value.artwork = artworkItem;
     } else {
         myCollections.value = data;
         selectedArtwork.value = artworkItem;
         addToCollectionModal.value.showModal();
     }
+
+    baseModal.value.hide();
 };
 
 const getSelectedMuseum = (reset = false) => {
@@ -209,7 +215,16 @@ const getSelectedMuseum = (reset = false) => {
     }
 };
 
+const loadBaseViewModal = () => {
+    if (!baseModal.value.value_isShown) {
+        baseModal.value.show();
+    }
+};
+
 onMounted(() => {
+    baseModal.value = new Modal(baseModalEl.value, {
+        focus: false,
+    });
     getSelectedMuseum();
 });
 </script>
@@ -321,7 +336,7 @@ onMounted(() => {
                             type="button"
                             class="btn btn-sm btn-primary m-3 position-absolute bottom-0 start-0"
                             data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
+                            data-bs-target="#baseViewModal"
                             @click="getSearchItem(item.id)"
                         >
                             View more...
@@ -368,11 +383,12 @@ onMounted(() => {
 
         <div
             class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
+            id="baseViewModal"
+            tabindex="-2"
             data-bs-backdrop="static"
-            aria-labelledby="exampleModalLabel"
+            aria-labelledby="baseViewModalLabel"
             aria-hidden="true"
+            ref="baseModalEl"
         >
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div
@@ -382,7 +398,7 @@ onMounted(() => {
                     <div class="modal-header">
                         <h1
                             class="modal-title fs-5"
-                            id="exampleModalLabel"
+                            id="baseViewModalLabel"
                         >
                             {{ searchItem?.title }}
                         </h1>
@@ -526,11 +542,15 @@ onMounted(() => {
             </div>
         </div>
 
-        <CreateCollectionModal ref="createCollectionModal" />
+        <CreateCollectionModal
+            @loadBaseViewModal="loadBaseViewModal"
+            ref="createCollectionModal"
+        />
         <AddToCollectionModal
             :collections="myCollections"
             :artwork="selectedArtwork"
             ref="addToCollectionModal"
+            @loadBaseViewModal="loadBaseViewModal"
             @closeModal="reset"
         />
     </div>
