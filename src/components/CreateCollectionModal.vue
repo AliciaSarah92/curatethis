@@ -13,6 +13,7 @@ const modal = ref(null);
 const authStore = useAuthStore();
 const emits = defineEmits(['closeModal', 'loadBaseViewModal']);
 const artwork = ref({});
+const loadBaseViewModal = ref(true);
 
 const formSchema = Yup.object({
     name: Yup.string().typeError('Name is required').required('Name is required'),
@@ -92,7 +93,10 @@ const showModal = () => {
 const closeModal = () => {
     modal.value.hide();
     resetForm();
-    emits('loadBaseViewModal');
+
+    if (loadBaseViewModal.value) {
+        emits('loadBaseViewModal');
+    }
 };
 
 onMounted(() => {
@@ -103,6 +107,7 @@ defineExpose({
     showModal,
     closeModal,
     artwork,
+    loadBaseViewModal,
 });
 </script>
 

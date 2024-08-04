@@ -13,6 +13,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['closeModal', 'loadBaseViewModal']);
 const { collections, artwork } = toRefs(props);
+const loadBaseViewModal = ref(true);
 
 const modalEl = ref(null);
 const modal = ref(null);
@@ -68,7 +69,10 @@ const closeModal = () => {
     modal.value.hide();
     resetForm();
     emits('closeModal');
-    emits('loadBaseViewModal');
+
+    if (loadBaseViewModal.value) {
+        emits('loadBaseViewModal');
+    }
 };
 
 onMounted(() => {
@@ -78,6 +82,7 @@ onMounted(() => {
 defineExpose({
     showModal,
     closeModal,
+    loadBaseViewModal,
 });
 </script>
 

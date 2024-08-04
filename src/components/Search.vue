@@ -192,19 +192,23 @@ const reset = () => {
     selectedArtwork.value = null;
 };
 
-const addToCollection = async artworkItem => {
+const addToCollection = async (artworkItem, loadBaseViewModal = true) => {
     const { data } = await supabase.from('collections').select().eq('user_id', authStore.currentUser?.id);
 
     if (!data.length) {
         createCollectionModal.value.showModal();
+        createCollectionModal.value.loadBaseViewModal = loadBaseViewModal;
         createCollectionModal.value.artwork = artworkItem;
     } else {
         myCollections.value = data;
         selectedArtwork.value = artworkItem;
+        addToCollectionModal.value.loadBaseViewModal = loadBaseViewModal;
         addToCollectionModal.value.showModal();
     }
 
-    baseModal.value.hide();
+    if (loadBaseViewModal) {
+        baseModal.value.hide();
+    }
 };
 
 const getSelectedMuseum = (reset = false) => {
@@ -216,9 +220,7 @@ const getSelectedMuseum = (reset = false) => {
 };
 
 const loadBaseViewModal = () => {
-    if (!baseModal.value.value_isShown) {
-        baseModal.value.show();
-    }
+    baseModal.value.show();
 };
 
 onMounted(() => {
@@ -346,7 +348,7 @@ onMounted(() => {
                             v-if="authStore.currentUser?.id"
                             type="button"
                             class="btn btn-sm btn-primary m-3 position-absolute bottom-0 end-0"
-                            @click="addToCollection(item)"
+                            @click="addToCollection(item, false)"
                         >
                             +
                         </button>
