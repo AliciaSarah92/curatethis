@@ -165,6 +165,7 @@ const getSearchItem = (itemId = null) => {
             const provenance_text = selectedMuseum.value === 'artinstituteofchicago' ? searchData.provenance_text : searchData.verificationleveldescription;
             const place_of_origin = selectedMuseum.value === 'artinstituteofchicago' ? searchData.place_of_origin : searchData.department;
             const updated_at = selectedMuseum.value === 'artinstituteofchicago' ? searchData.updated_at : searchData.lastupdate;
+            const type = selectedMuseum.value === 'artinstituteofchicago' ? 'artinstituteofchicago' : 'harvardartmuseum';
 
             searchItem.value = {
                 id: searchData.id,
@@ -178,6 +179,7 @@ const getSearchItem = (itemId = null) => {
                 updated_at: updated_at,
                 link: link,
                 image: image,
+                type: type,
             };
 
             modalLoading.value = false;

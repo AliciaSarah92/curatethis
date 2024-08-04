@@ -33,6 +33,7 @@ const { handleSubmit, resetForm, meta, errors, handleBlur, handleChange, useFiel
 const collection_id = useFieldModel('collection_id');
 
 const submitForm = handleSubmit(async formData => {
+    console.log(artwork.value.type);
     const artworks = {
         artwork_id: artwork.value.id,
         type: artwork.value.type,
