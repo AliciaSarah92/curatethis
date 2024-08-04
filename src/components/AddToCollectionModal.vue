@@ -9,12 +9,11 @@ import { useNotification } from '@kyvg/vue3-notification';
 const { notify } = useNotification();
 const props = defineProps({
     collections: Array,
-    artwork: Object,
 });
 const emits = defineEmits(['closeModal', 'loadBaseViewModal']);
-const { collections, artwork } = toRefs(props);
+const { collections } = toRefs(props);
 const loadBaseViewModal = ref(true);
-
+const artwork = ref({});
 const modalEl = ref(null);
 const modal = ref(null);
 
@@ -83,6 +82,7 @@ defineExpose({
     showModal,
     closeModal,
     loadBaseViewModal,
+    artwork,
 });
 </script>
 

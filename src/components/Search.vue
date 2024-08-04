@@ -202,6 +202,7 @@ const addToCollection = async (artworkItem, loadBaseViewModal = true) => {
     } else {
         myCollections.value = data;
         selectedArtwork.value = artworkItem;
+        addToCollectionModal.value.artwork = artworkItem;
         addToCollectionModal.value.loadBaseViewModal = loadBaseViewModal;
         addToCollectionModal.value.showModal();
     }
@@ -550,7 +551,6 @@ onMounted(() => {
         />
         <AddToCollectionModal
             :collections="myCollections"
-            :artwork="selectedArtwork"
             ref="addToCollectionModal"
             @loadBaseViewModal="loadBaseViewModal"
             @closeModal="reset"
