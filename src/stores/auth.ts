@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { type RouteLocation } from 'vue-router';
-
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 

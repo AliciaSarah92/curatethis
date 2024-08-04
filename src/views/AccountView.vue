@@ -3,7 +3,9 @@ import { supabase } from '../lib/supabase';
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
+import { useNotification } from '@kyvg/vue3-notification';
 
+const { notify } = useNotification();
 const authStore = useAuthStore();
 const router = useRouter();
 const user = authStore.currentUser;
@@ -20,7 +22,6 @@ onMounted(() => {
 async function getProfile() {
     try {
         loading.value = true;
-        // const { user } = session.value;
 
         const { data, error, status } = await supabase.from('profiles').select(`username, website, avatar_url`).eq('id', user.id).single();
 
@@ -32,7 +33,11 @@ async function getProfile() {
             avatar_url.value = data.avatar_url;
         }
     } catch (error) {
-        alert(error.message);
+        notify({
+            title: 'Error',
+            text: error,
+            type: 'error',
+        });
     } finally {
         loading.value = false;
     }
@@ -54,8 +59,18 @@ async function updateProfile() {
         const { error } = await supabase.from('profiles').upsert(updates);
 
         if (error) throw error;
+
+        notify({
+            title: 'Success',
+            text: 'Profile updated successfully.',
+            type: 'success',
+        });
     } catch (error) {
-        alert(error.message);
+        notify({
+            title: 'Error',
+            text: error,
+            type: 'error',
+        });
     } finally {
         loading.value = false;
     }
@@ -67,9 +82,19 @@ async function signOut() {
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
 
+        notify({
+            title: 'Success',
+            text: 'Logged out successfully.',
+            type: 'success',
+        });
+
         router.push({ path: '/' });
     } catch (error) {
-        alert(error.message);
+        notify({
+            title: 'Error',
+            text: error,
+            type: 'error',
+        });
     } finally {
         loading.value = false;
     }
@@ -77,53 +102,72 @@ async function signOut() {
 </script>
 
 <template>
-    <form
-        class="form-widget mt-5"
-        @submit.prevent="updateProfile"
-    >
-        <div>
-            <label for="email">Email</label>
-            <input
-                id="email"
-                type="text"
-                :value="user.email"
-                disabled
-            />
-        </div>
-        <div>
-            <label for="username">Name</label>
-            <input
-                id="username"
-                type="text"
-                v-model="username"
-            />
-        </div>
-        <div>
-            <label for="website">Website</label>
-            <input
-                id="website"
-                type="url"
-                v-model="website"
-            />
-        </div>
+    <div class="container mt-5">
+        <fieldset class="text-start">
+            <legend>Update Profile</legend>
 
-        <div>
-            <input
-                type="submit"
-                class="button primary block"
-                :value="loading ? 'Loading ...' : 'Update'"
-                :disabled="loading"
-            />
-        </div>
-
-        <div>
-            <button
-                class="button block"
-                @click="signOut"
-                :disabled="loading"
+            <form
+                class="form-widget mt-5"
+                @submit.prevent="updateProfile"
             >
-                Sign Out
-            </button>
-        </div>
-    </form>
+                <div class="mb-3">
+                    <label
+                        class="form-label"
+                        for="email"
+                        >Email</label
+                    >
+                    <input
+                        class="form-control"
+                        id="email"
+                        type="text"
+                        placeholder="Disabled input"
+                        :value="user.email"
+                        disabled
+                    />
+                </div>
+                <div class="mb-3">
+                    <label
+                        class="form-label"
+                        for="username"
+                        >Name</label
+                    >
+                    <input
+                        class="form-control"
+                        id="username"
+                        placeholder="Enter Username"
+                        type="text"
+                        v-model="username"
+                    />
+                </div>
+                <div class="mb-3">
+                    <label
+                        class="form-label"
+                        for="website"
+                        >Website</label
+                    >
+                    <input
+                        class="form-control"
+                        id="website"
+                        placeholder="Enter Website"
+                        type="url"
+                        v-model="website"
+                    />
+                </div>
+                <input
+                    class="form-control btn btn-outline-primary block"
+                    type="submit"
+                    :value="loading ? 'Loading ...' : 'Update'"
+                    :disabled="loading"
+                />
+
+                <button
+                    class="form-control mt-5 btn btn-outline-danger primary block"
+                    @click="signOut"
+                    :disabled="loading"
+                >
+                    Sign Out
+                </button>
+            </form>
+        </fieldset>
+    </div>
 </template>

@@ -8,6 +8,6 @@ export function authGuard(to: RouteLocationNormalized, from: RouteLocationNormal
         return next();
     } else {
         authStore.saveRedirectRoute(to);
-        return next({ name: 'login' });
+        return next({ path: '/' });
     }
 }

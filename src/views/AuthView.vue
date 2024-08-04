@@ -12,9 +12,9 @@ import Auth from '../components/Auth.vue';
         <div class="cover-container position-relative z-1 d-flex w-50 vh-100 p-3 mx-auto flex-column">
             <div class="mb-auto"></div>
 
-            <main class="px-3 container">
+            <div class="px-3 container">
                 <Auth />
-            </main>
+            </div>
 
             <div class="mt-auto"></div>
         </div>

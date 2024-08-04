@@ -9,11 +9,11 @@ const authStore = useAuthStore();
 <template>
     <header data-bs-theme="dark">
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container-fluid">
+            <div class="container">
                 <RouterLink
                     class="navbar-brand"
                     aria-current="page"
-                    :to="{ name: authStore.isAuthenticated ? 'search' : 'home' }"
+                    :to="{ name: 'search' }"
                     >CurateThis.</RouterLink
                 >
                 <button
@@ -27,6 +27,7 @@ const authStore = useAuthStore();
                 >
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div
                     class="collapse navbar-collapse"
                     id="navbarCollapse"

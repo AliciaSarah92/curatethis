@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { authGuard } from '@/guards/auth';
 
-import HomeView from '../views/HomeView.vue';
 import SearchView from '../views/SearchView.vue';
+import CollectionsView from '../views/CollectionsView.vue';
 import CollectionView from '../views/CollectionView.vue';
 import AccountView from '../views/AccountView.vue';
 
@@ -11,12 +11,6 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: HomeView,
-            meta: { authRequired: false },
-        },
-        {
-            path: '/search',
             name: 'search',
             component: SearchView,
             meta: { authRequired: false },
@@ -24,6 +18,12 @@ const router = createRouter({
         {
             path: '/my-collections',
             name: 'collections',
+            component: CollectionsView,
+            meta: { authRequired: true },
+        },
+        {
+            path: '/my-collections/:id',
+            name: 'collection',
             component: CollectionView,
             meta: { authRequired: true },
         },

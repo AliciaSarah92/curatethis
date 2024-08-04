@@ -8,6 +8,7 @@ import { createPinia } from 'pinia';
 
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import Notifications from '@kyvg/vue3-notification';
 
 import App from './App.vue';
 import router from './router';
@@ -28,8 +29,8 @@ app.config.globalProperties.$filters = {
 
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios);
-
 app.use(createPinia());
+app.use(Notifications);
 app.use(router);
 
 app.mount('#app');

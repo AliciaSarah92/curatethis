@@ -15,10 +15,6 @@ supabase.auth.onAuthStateChange(event => {
     if (event === 'SIGNED_IN') {
         authStore.loadUser();
         authStore.loadRedirectRoute();
-
-        if (route.meta.authRequired === false) {
-            router.push({ path: '/search' });
-        }
     } else if (event === 'SIGNED_OUT') {
         authStore.clearUser();
     }
@@ -43,6 +39,7 @@ authStore.$onAction(({ name, store, after }) => {
     <div>
         <Header />
         <RouterView class="py-5" />
+        <notifications position="bottom right" />
         <Footer class="pb-3" />
     </div>
 </template>
