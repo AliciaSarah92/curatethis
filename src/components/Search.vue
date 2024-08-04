@@ -36,7 +36,7 @@ const museums = ref([
     {
         title: 'Harvard Art Museum',
         name: 'harvardartmuseum',
-        description: 'Just steps away from Harvard Square in Cambridge, Massachusetts, the Harvard Art Museums welcome visitors from around the corner and around the world.',
+        description: 'Welcome Harvard Art Museum. Just steps away from Harvard Square in Cambridge, Massachusetts, the Harvard Art Museums welcome visitors from all around the world.',
     },
 ]);
 
@@ -216,6 +216,13 @@ onMounted(() => {
 
 <template>
     <div class="container px-3">
+        <div
+            v-if="!authStore.currentUser?.id"
+            class="bg-primary text-start"
+        >
+            <p class="p-2">You need to be logged in, in order to create collections & add artworks.</p>
+        </div>
+
         <div class="row text-start">
             <div
                 v-for="museum in museums"
@@ -251,6 +258,8 @@ onMounted(() => {
                 </button>
             </div>
         </div>
+
+        <p class="text-start">Select from one of the museums above.</p>
 
         <div class="input-group mb-3">
             <input
